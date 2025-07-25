@@ -88,23 +88,67 @@ class UserController extends Controller
         ));
     }
 
+    // public function store(Request $request)
+    // {
+    //     $request->validate([
+    //         'umur' => 'required|integer|min:10|max:100',
+    //         'tinggi_badan' => 'required|numeric|min:100|max:250',
+    //         'berat_badan' => 'required|numeric|min:20|max:300',
+    //         'foto' => 'nullable|image|max:2048',
+    //     ]);
+
+    //     $user_id = Auth::id();
+    //     $tinggi = $request->tinggi_badan;
+    //     $berat = $request->berat_badan;
+    //     $kalori = round(10 * $berat + 6.25 * $tinggi - 5 * $request->umur); 
+    //         $bmi = $berat / pow($tinggi / 100, 2);
+    //         $status = $this->kategoriBMI($bmi);
+
+    //     $foto = $request->file('foto') ? $request->file('foto')->store('foto_user', 'public') : '';
+
+    //     InfoUser::create([
+    //         'user_id' => $user_id,
+    //         'umur' => $request->umur,
+    //         'tinggi_badan' => $tinggi,
+    //         'berat_badan' => $berat,
+    //         'kalori_harian' => $kalori,
+    //         'status' => $status,
+    //         'foto' => $foto,
+    //     ]);
+
+    //     return redirect()->back()->with('success', 'Data diri berhasil disimpan');
+    // }
+
     public function store(Request $request)
     {
         $request->validate([
             'umur' => 'required|integer|min:10|max:100',
             'tinggi_badan' => 'required|numeric|min:100|max:250',
             'berat_badan' => 'required|numeric|min:20|max:300',
-            'foto' => 'nullable|image|max:2048',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $user_id = Auth::id();
         $tinggi = $request->tinggi_badan;
         $berat = $request->berat_badan;
         $kalori = round(10 * $berat + 6.25 * $tinggi - 5 * $request->umur); 
-            $bmi = $berat / pow($tinggi / 100, 2);
-            $status = $this->kategoriBMI($bmi);
+        $bmi = $berat / pow($tinggi / 100, 2);
+        $status = $this->kategoriBMI($bmi);
 
-        $foto = $request->file('foto') ? $request->file('foto')->store('foto_user', 'public') : '';
+        $fotoPath = '';
+
+        if ($request->hasFile('foto')) {
+            $foto = $request->file('foto');
+            $namaFile = time() . '.' . $foto->getClientOriginalExtension();
+            $tujuan = public_path('/images');
+
+            if (!file_exists($tujuan)) {
+                mkdir($tujuan, 0777, true);
+            }
+
+            $foto->move($tujuan, $namaFile);
+            $fotoPath = 'images/' . $namaFile;
+        }
 
         InfoUser::create([
             'user_id' => $user_id,
@@ -113,11 +157,12 @@ class UserController extends Controller
             'berat_badan' => $berat,
             'kalori_harian' => $kalori,
             'status' => $status,
-            'foto' => $foto,
+            'foto' => $fotoPath,
         ]);
 
         return redirect()->back()->with('success', 'Data diri berhasil disimpan');
     }
+
 
     private function kategoriBMI($bmi)
     {
@@ -128,23 +173,55 @@ class UserController extends Controller
         return 'Obesitas II';
     }
 
+    // public function update(Request $request, $id)
+    // {
+    //     $info = InfoUser::where('user_id', Auth::id())->findOrFail($id);
+
+    //     $request->validate([
+    //         'foto' => 'nullable|image|max:2048',
+    //     ]);
+
+    //     if ($request->hasFile('foto')) {
+    //         if ($info->foto) Storage::disk('public')->delete($info->foto);
+    //         $info->foto = $request->file('foto')->store('foto_user', 'public');
+    //     }
+
+    //     $info->save();
+
+    //     return redirect()->back()->with('success', 'Data berhasil diperbarui');
+    // }
     public function update(Request $request, $id)
     {
         $info = InfoUser::where('user_id', Auth::id())->findOrFail($id);
 
         $request->validate([
-            'foto' => 'nullable|image|max:2048',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         if ($request->hasFile('foto')) {
-            if ($info->foto) Storage::disk('public')->delete($info->foto);
-            $info->foto = $request->file('foto')->store('foto_user', 'public');
+            // Hapus foto lama jika ada
+            if ($info->foto && file_exists(public_path($info->foto))) {
+                unlink(public_path($info->foto));
+            }
+
+            // Simpan foto baru ke folder public/images
+            $foto = $request->file('foto');
+            $namaFile = time() . '.' . $foto->getClientOriginalExtension();
+            $tujuan = public_path('/images');
+
+            if (!file_exists($tujuan)) {
+                mkdir($tujuan, 0777, true);
+            }
+
+            $foto->move($tujuan, $namaFile);
+            $info->foto = 'images/' . $namaFile;
         }
 
         $info->save();
 
         return redirect()->back()->with('success', 'Data berhasil diperbarui');
     }
+
 
     public function riwayat(Request $request)
     {
