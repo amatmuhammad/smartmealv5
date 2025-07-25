@@ -127,7 +127,7 @@
 										</div>
 									</div>
 								@else
-									{{-- <button class="btn btn-outline-warning" data-toggle="modal" data-target="#editFotoModal{{ $info->id }}">Update Foto</button> --}}
+									<button class="btn btn-outline-warning" data-toggle="modal" data-target="#editFotoModal{{ $info->id }}">Update Foto</button>
 										<!-- Modal Update -->
 									<div class="modal fade" id="editFotoModal{{ $info->id }}" tabindex="-1">
 										<div class="modal-dialog">
