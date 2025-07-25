@@ -16,6 +16,12 @@ class ImportMakanan implements ToCollection, WithHeadingRow
     {
         //
         foreach ($collection as $row) {
+
+             // Lewati jika nama_makanan kosong
+            if (empty($row['nama_makanan'])) {
+                continue;
+            }
+
             makanan::create([
                 'nama_makanan' => $row['nama_makanan'],
                 'kalori'       => $row['kalori'],

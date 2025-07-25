@@ -46,7 +46,7 @@ class adminController extends Controller
 
     public function makanan(){
         $makan = makanan::all();
-
+        // dd($makan);
         return view('admin.makanan',compact('makan'));
     }
 
@@ -61,55 +61,33 @@ class adminController extends Controller
     public function storemakanan(Request $request)
     {
       
+       // Validasi input
         $request->validate([
-            'nama_makanan' => 'required|string',
+            'nama_makanan' => 'required|string|max:255',
             'kalori'       => 'required|numeric',
             'serat'        => 'required|numeric',
             'lemak'        => 'required|numeric',
             'protein'      => 'required|numeric',
-            'gambar'       => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
+            'gambar'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        $gambarPath = null;
-
+        // Simpan gambar ke public/images
+        $namaFile = 'default.jpg'; // default jika tidak upload gambar
         if ($request->hasFile('gambar')) {
-            $gambar = $request->file('gambar');
-            $namaFile = time() . '.' . $gambar->getClientOriginalExtension();
-            $tujuan = public_path('/images');
-
-            if (!file_exists($tujuan)) {
-                mkdir($tujuan, 0777, true);
-            }
-
-            $gambar->move($tujuan, $namaFile);
-            $gambarPath = '/images' . $namaFile;
+            $file = $request->file('gambar');
+            $namaFile = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('images'), $namaFile);
         }
 
+        // Simpan data ke DB
         makanan::create([
             'nama_makanan' => $request->nama_makanan,
             'kalori'       => $request->kalori,
             'serat'        => $request->serat,
             'lemak'        => $request->lemak,
             'protein'      => $request->protein,
-            'gambar'       => $gambarPath,
-        ]);$request->validate([
-        'nama_makanan' => 'required|string|max:255',
-        'gambar' => 'required|image|mimes:jpg,jpeg,png|max:2048',
-    ]);
-
-    // Upload ke public/storage/makanan
-    if ($request->hasFile('gambar')) {
-        $file = $request->file('gambar');
-        $namaFile = time() . '.' . $file->getClientOriginalExtension();
-        $file->move(public_path('/images'), $namaFile);
-    }
-
-    // Simpan nama file ke database
-    makanan::create([
-        'nama_makanan' => $request->nama_makanan,
-        'gambar' => $namaFile,
-    ]);
-
+            'gambar'       => $namaFile,
+        ]);
 
         return redirect()->route('makanan')->with('success', 'Data makanan berhasil ditambahkan.');
     }
@@ -119,33 +97,47 @@ class adminController extends Controller
     // Update data
     public function updatemakanan(Request $request, $id)
     {
-        $makanan = Makanan::findOrFail($id);
+        // Cari data makanan
+        $makanan = makanan::findOrFail($id);
 
+        // Validasi input
         $request->validate([
             'nama_makanan' => 'required|string|max:255',
             'kalori'       => 'required|numeric',
             'serat'        => 'required|numeric',
             'lemak'        => 'required|numeric',
             'protein'      => 'required|numeric',
-            'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'gambar'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
+        // Cek apakah ada file gambar baru
         if ($request->hasFile('gambar')) {
             $file = $request->file('gambar');
             $namaFile = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('/images'), $namaFile);
 
-            // Hapus file lama jika ada
-            if ($makanan->gambar && file_exists(public_path('images/' . $makanan->gambar))) {
-                unlink(public_path('/images' . $makanan->gambar));
+            // Upload gambar baru
+            $file->move(public_path('images'), $namaFile);
+
+            // Hapus gambar lama (selain default.jpg)
+            if ($makanan->gambar && $makanan->gambar !== 'default.jpg') {
+                $gambarLama = public_path('images/' . $makanan->gambar);
+                if (file_exists($gambarLama)) {
+                    unlink($gambarLama);
+                }
             }
 
+            // Simpan nama file baru
             $makanan->gambar = $namaFile;
         }
 
+        // Update data lainnya
         $makanan->nama_makanan = $request->nama_makanan;
-        $makanan->save();
+        $makanan->kalori       = $request->kalori;
+        $makanan->serat        = $request->serat;
+        $makanan->lemak        = $request->lemak;
+        $makanan->protein      = $request->protein;
 
+        $makanan->save();
 
         return redirect()->route('makanan')->with('success', 'Data makanan berhasil diperbarui.');
     }
