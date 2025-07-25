@@ -140,7 +140,7 @@ class UserController extends Controller
         if ($request->hasFile('foto')) {
             $foto = $request->file('foto');
             $namaFile = time() . '.' . $foto->getClientOriginalExtension();
-            $tujuan = public_path('/foto');
+            $tujuan = base_path('public_html/foto');
 
             $foto->move($tujuan, $namaFile);
             $fotoPath =  $namaFile;
@@ -186,7 +186,7 @@ class UserController extends Controller
             // Simpan foto baru ke folder public/images
             $foto = $request->file('foto');
             $namaFile = time() . '.' . $foto->getClientOriginalExtension();
-            $tujuan = public_path('/foto');
+            $tujuan = base_path('public_html/foto');
 
             $foto->move($tujuan, $namaFile);
             $info->foto =  $namaFile;
