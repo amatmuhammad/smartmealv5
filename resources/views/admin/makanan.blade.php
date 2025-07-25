@@ -50,7 +50,6 @@
 									<th>Serat</th>
 									<th>Lemak</th>
 									<th>protein</th>
-									<th>harga</th>
 									<th>Gambar</th>
 									<th class="datatable-nosort">Action</th>
 								</tr>
@@ -64,7 +63,6 @@
 									<td>{{ $item->serat }} <span class="badge badge-pill badge-warning">(gram)</span></td>
 									<td>{{ $item->lemak }} <span class="badge badge-pill badge-warning">(gram)</span></td>
 									<td>{{ $item->protein }} <span class="badge badge-pill badge-warning">(gram)</span></td>
-									<td>Rp {{ number_format($item->harga, 0, ',', '.') }}</td>
 									<td>
                                         <img src="{{ asset('storage/' . $item->gambar) }}" alt="gambar" width="80">
                                     </td>
