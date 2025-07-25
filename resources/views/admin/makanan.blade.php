@@ -214,7 +214,7 @@
                                 <small class="text-danger">Jangan Menggunakan File .CSV</small>
                             </div>
                         </div>
-                            <a href="{{ asset('format_excel_smartmeal.xlsx') }}" class="text-success">Unduh Template Excel Disini</a>
+                            <a href="{{ asset('format_excel_smartmeal.xlsx') }}" class="text-success mb-3 text-center">Unduh Template Excel Disini</a>
                         <div class="modal-footer">
                         <button type="submit" class="btn btn-success">Upload</button>
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>

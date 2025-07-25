@@ -1,8 +1,8 @@
 <div class="left-side-bar">
 		<div class="brand-logo">
-			<img src="{{ asset('assets/vendors/images/LOGO_SM.png') }}" alt="gambar" width="50px">
 			<a href="#">
-				<h2 class="text-white text-center">SMART MEAL</h2>
+				<img src="{{ asset('assets/vendors/images/LOGO_SM.png') }}" alt="gambar" width="50px">
+				<h4 class="text-white text-center">SMART MEAL</h4>
 			</a>
 			<div class="close-sidebar" data-toggle="left-sidebar-close">
 				<i class="ion-close-round"></i>
