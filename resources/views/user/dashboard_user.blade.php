@@ -127,7 +127,7 @@
 										</div>
 									</div>
 								@else
-									<button class="btn btn-outline-warning" data-toggle="modal" data-target="#editFotoModal{{ $info->id }}">Update Foto</button>
+									<button class="btn btn-outline-warning" data-toggle="modal" data-target="#editFotoModal{{ $info->id }}">Update Data Diri</button>
 										<!-- Modal Update -->
 									<div class="modal fade" id="editFotoModal{{ $info->id }}" tabindex="-1">
 										<div class="modal-dialog">
@@ -136,7 +136,7 @@
 											{{-- @method('PUT') --}}
 											<div class="modal-content">
 												<div class="modal-header">
-													<h5 class="modal-title">Update Foto</h5>
+													<h5 class="modal-title">Update Data Diri</h5>
 													<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 														<span aria-hidden="true">&times;</span>
 													</button>
