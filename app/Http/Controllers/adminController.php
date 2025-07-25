@@ -76,7 +76,7 @@ class adminController extends Controller
         if ($request->hasFile('gambar')) {
             $file = $request->file('gambar');
             $namaFile = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(base_path('public_html/images'), $namaFile);
+            $file->move(base_path('/images'), $namaFile);
         }
 
         // Simpan data ke DB
@@ -116,7 +116,7 @@ class adminController extends Controller
             $namaFile = time() . '.' . $file->getClientOriginalExtension();
 
             // Upload gambar baru
-            $file->move(base_path('public_html/images'), $namaFile);
+            $file->move(base_path('/images'), $namaFile);
 
             // Hapus gambar lama (selain default.jpg)
             if ($makanan->gambar && $makanan->gambar !== 'default.jpg') {
