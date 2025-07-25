@@ -39,7 +39,7 @@
 <body>
 	<div class="pre-loader">
 		<div class="pre-loader-box">
-			 <div class="loader-logo"><img src="{{ asset('assets/vendors/images/LOGO_SM.png') }}" alt=""></div>
+			 <div class="loader-logo"><img src="{{ asset('LOGO_SM.png') }}" alt=""></div>
 			<h3 class="text-primary">Smart Meal</h3>
 			<div class='loader-progress' id="progress_div">
 				<div class='bar' id='bar1'></div>
