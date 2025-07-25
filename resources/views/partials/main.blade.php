@@ -71,7 +71,7 @@
 							@if (!$info)								
 								<img src="{{ asset('assets/vendors/images/vector user.jpg') }}" alt="">
 							@else
-								<img src="{{ asset('storage/' . $info->foto) }}" alt="">
+								<img src="{{ asset('foto/' . $info->foto) }}" alt="">
 							@endif
 						</span>
 						<span class="user-name">{{ Auth::user()->name }}</span>

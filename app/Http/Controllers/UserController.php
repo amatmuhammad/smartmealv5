@@ -140,14 +140,10 @@ class UserController extends Controller
         if ($request->hasFile('foto')) {
             $foto = $request->file('foto');
             $namaFile = time() . '.' . $foto->getClientOriginalExtension();
-            $tujuan = public_path('/images');
-
-            if (!file_exists($tujuan)) {
-                mkdir($tujuan, 0777, true);
-            }
+            $tujuan = public_path('/foto');
 
             $foto->move($tujuan, $namaFile);
-            $fotoPath = 'images/' . $namaFile;
+            $fotoPath =  $namaFile;
         }
 
         InfoUser::create([
@@ -173,23 +169,6 @@ class UserController extends Controller
         return 'Obesitas II';
     }
 
-    // public function update(Request $request, $id)
-    // {
-    //     $info = InfoUser::where('user_id', Auth::id())->findOrFail($id);
-
-    //     $request->validate([
-    //         'foto' => 'nullable|image|max:2048',
-    //     ]);
-
-    //     if ($request->hasFile('foto')) {
-    //         if ($info->foto) Storage::disk('public')->delete($info->foto);
-    //         $info->foto = $request->file('foto')->store('foto_user', 'public');
-    //     }
-
-    //     $info->save();
-
-    //     return redirect()->back()->with('success', 'Data berhasil diperbarui');
-    // }
     public function update(Request $request, $id)
     {
         $info = InfoUser::where('user_id', Auth::id())->findOrFail($id);
@@ -207,14 +186,14 @@ class UserController extends Controller
             // Simpan foto baru ke folder public/images
             $foto = $request->file('foto');
             $namaFile = time() . '.' . $foto->getClientOriginalExtension();
-            $tujuan = public_path('/images');
+            $tujuan = public_path('/foto');
 
             if (!file_exists($tujuan)) {
                 mkdir($tujuan, 0777, true);
             }
 
             $foto->move($tujuan, $namaFile);
-            $info->foto = 'images/' . $namaFile;
+            $info->foto =  $namaFile;
         }
 
         $info->save();

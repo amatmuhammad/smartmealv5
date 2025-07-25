@@ -29,7 +29,7 @@
 								@if (!$info)
 									<img src="{{ asset('assets/vendors/images/vector user.jpg') }}" alt="Foto" class="avatar-photo shadow-lg p-1 mb-2">
 								@else
-									<img src="{{ asset('storage/' . $info->foto) }}" alt="Foto" class="avatar-photo shadow-lg p-1 mb-2">
+									<img src="{{ asset('foto/' . $info->foto) }}" alt="Foto" class="avatar-photo shadow-lg p-1 mb-2">
 								@endif
 								
 							</div>
