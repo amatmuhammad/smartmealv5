@@ -39,7 +39,7 @@
 <body>
 	<div class="pre-loader">
 		<div class="pre-loader-box">
-			<!-- <div class="loader-logo"><img src="vendors/images/deskapp-logo.svg" alt=""></div> -->
+			 <div class="loader-logo"><img src="{{ asset('uploads/LOGO_SM.png') }}" alt=""></div>
 			<h3 class="text-primary">Smart Meal</h3>
 			<div class='loader-progress' id="progress_div">
 				<div class='bar' id='bar1'></div>
@@ -77,9 +77,6 @@
 						<span class="user-name">{{ Auth::user()->name }}</span>
 					</a>
 					<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-						{{-- <a class="dropdown-item" href="profile.html"><i class="dw dw-user1"></i> Profile</a>
-						<a class="dropdown-item" href="profile.html"><i class="dw dw-settings2"></i> Setting</a>
-						<a class="dropdown-item" href="faq.html"><i class="dw dw-help"></i> Help</a> --}}
 						<form action="{{ route('logout') }} " method="POST">
 							@csrf
 							<button type="submit" class="dropdown-item"><i class="dw dw-logout"></i> Log Out</button>
