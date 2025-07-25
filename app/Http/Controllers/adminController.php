@@ -52,7 +52,7 @@ class adminController extends Controller
 
     public function usermanage(){
 
-        $user = User::with('InfoUser')->get();
+        $user = User::where('is_admin', false)->with('InfoUser')->get();
 
         // dd($user);
         return view('admin.manajemenuser', compact('user'));
@@ -160,9 +160,6 @@ class adminController extends Controller
         $bobot->delete();
         return redirect()->route('pembobotan')->with('success', 'Bobot berhasil dihapus');
     }
-
-
-
 
     public function topsis()
     {
@@ -292,8 +289,6 @@ class adminController extends Controller
 
         return redirect()->back()->with('success', 'Data makanan berhasil diimport!');
     }
-
-
 
 }
 

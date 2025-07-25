@@ -18,7 +18,6 @@ return new class extends Migration
             $table->float('serat');
             $table->float('lemak');
             $table->float('protein');
-            $table->float('harga');
             $table->string('gambar');
             $table->timestamps();
         });
