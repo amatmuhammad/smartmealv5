@@ -142,8 +142,20 @@
 													</button>
 												</div>
 												<div class="modal-body">
+													<label>Umur:</label>
+													<input type="number" name="umur" class="form-control mb-4" placeholder="Masukkan Umur Anda" required>
+
+													<label>Tinggi Badan (cm):</label>
+													<input type="number" name="tinggi_badan" class="form-control mb-4" placeholder="Masukkan Tinggi Badan" required>
+
+													<label>Berat Badan (kg):</label>
+													<input type="number" name="berat_badan" class="form-control mb-4" placeholder="Masukkan Berat Badan" required>
+
 													<label>Ganti Foto:</label>
 													<input type="file" name="foto" class="form-control" accept="image/*">
+													<small class="text-danger">
+														File Maks. 2 MB
+													</small>
 												</div>
 												<div class="modal-footer">
 													<button type="submit" class="btn btn-warning">Update</button>

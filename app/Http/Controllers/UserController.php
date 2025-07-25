@@ -122,10 +122,10 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'umur' => 'required|integer|min:10|max:100',
-            'tinggi_badan' => 'required|numeric|min:100|max:250',
-            'berat_badan' => 'required|numeric|min:20|max:300',
-            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'umur'          => 'required|integer|min:10|max:100',
+            'tinggi_badan'  => 'required|numeric|min:100|max:250',
+            'berat_badan'   => 'required|numeric|min:20|max:300',
+            'foto'          => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $user_id = Auth::id();
@@ -174,8 +174,15 @@ class UserController extends Controller
         $info = InfoUser::where('user_id', Auth::id())->findOrFail($id);
 
         $request->validate([
-            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'umur'          => 'required|integer|min:10|max:100',
+            'tinggi_badan'  => 'required|numeric|min:100|max:250',
+            'berat_badan'   => 'required|numeric|min:20|max:300',
+            'foto'          => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
+
+        $info->umur = $request->umur;
+        $info->tinggi_badan = $request->tinggi_badan;
+        $info->berat_badan = $request->berat_badan;
 
         if ($request->hasFile('foto')) {
             // Hapus foto lama jika ada
