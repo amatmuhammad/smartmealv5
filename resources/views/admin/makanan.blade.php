@@ -133,6 +133,8 @@
                                 <label>Gambar</label>
                                 <input type="file" name="gambar" class="form-control" >
                             </div>
+                            <br>
+                            <a href="{{ asset('format_excel_smartmeal.xlsx') }}" class="text-success">Unduh Template Excel Disini</a>
                             </div>
                             <div class="modal-footer">
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
