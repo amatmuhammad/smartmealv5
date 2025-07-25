@@ -60,29 +60,45 @@ class adminController extends Controller
 
     public function storemakanan(Request $request)
     {
+      
         $request->validate([
             'nama_makanan' => 'required|string',
-            'kalori'     => 'required|numeric',
+            'kalori'       => 'required|numeric',
             'serat'        => 'required|numeric',
             'lemak'        => 'required|numeric',
             'protein'      => 'required|numeric',
-            'gambar'       => 'required|image|mimes:jpg,png,jpeg|max:2048',
+            'gambar'       => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
         ]);
 
-        $imagePath = $request->file('gambar')->store('makanan', 'public');
+        $gambarPath = null;
+
+        if ($request->hasFile('gambar')) {
+            $gambar = $request->file('gambar');
+            $namaFile = time() . '.' . $gambar->getClientOriginalExtension();
+            $tujuan = public_path('storage/makanan');
+
+            if (!file_exists($tujuan)) {
+                mkdir($tujuan, 0777, true);
+            }
+
+            $gambar->move($tujuan, $namaFile);
+            $gambarPath = 'storage/makanan/' . $namaFile;
+        }
 
         makanan::create([
             'nama_makanan' => $request->nama_makanan,
-            'kalori'     => $request->kalori,
+            'kalori'       => $request->kalori,
             'serat'        => $request->serat,
             'lemak'        => $request->lemak,
             'protein'      => $request->protein,
-            'gambar'       => $imagePath,
+            'gambar'       => $gambarPath,
         ]);
 
         return redirect()->route('makanan')->with('success', 'Data makanan berhasil ditambahkan.');
     }
 
+
+      
     // Update data
     public function updatemakanan(Request $request, $id)
     {
@@ -90,7 +106,7 @@ class adminController extends Controller
 
         $request->validate([
             'nama_makanan' => 'required|string',
-            'kalori'     => 'required|numeric',
+            'kalori'       => 'required|numeric',
             'serat'        => 'required|numeric',
             'lemak'        => 'required|numeric',
             'protein'      => 'required|numeric',
@@ -98,17 +114,31 @@ class adminController extends Controller
         ]);
 
         if ($request->hasFile('gambar')) {
-            $imagePath = $request->file('gambar')->store('makanan', 'public');
-            $makanan->gambar = $imagePath;
+            // Hapus gambar lama jika ada
+            if ($makanan->gambar && file_exists(public_path($makanan->gambar))) {
+                unlink(public_path($makanan->gambar));
+            }
+
+            $gambar = $request->file('gambar');
+            $namaFile = time() . '.' . $gambar->getClientOriginalExtension();
+            $tujuan = public_path('storage/makanan');
+
+            if (!file_exists($tujuan)) {
+                mkdir($tujuan, 0777, true);
+            }
+
+            $gambar->move($tujuan, $namaFile);
+            $makanan->gambar = 'storage/makanan/' . $namaFile;
         }
 
         $makanan->update([
             'nama_makanan' => $request->nama_makanan,
-            'kalori'     => $request->kalori,
+            'kalori'       => $request->kalori,
             'serat'        => $request->serat,
             'lemak'        => $request->lemak,
             'protein'      => $request->protein,
         ]);
+
 
         return redirect()->route('makanan')->with('success', 'Data makanan berhasil diperbarui.');
     }

@@ -64,7 +64,7 @@
 									<td>{{ $item->lemak }} <span class="badge badge-pill badge-warning">(gram)</span></td>
 									<td>{{ $item->protein }} <span class="badge badge-pill badge-warning">(gram)</span></td>
 									<td>
-                                        <img src="{{ asset('storage/' . $item->gambar) }}" alt="gambar" width="80">
+                                        <img src="{{ asset($item->gambar ?? 'images/default.png') }}" alt="gambar" width="80">
                                     </td>
 									<td>
 										<div class="dropdown">
