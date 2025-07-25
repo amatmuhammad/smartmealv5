@@ -75,14 +75,14 @@ class adminController extends Controller
         if ($request->hasFile('gambar')) {
             $gambar = $request->file('gambar');
             $namaFile = time() . '.' . $gambar->getClientOriginalExtension();
-            $tujuan = public_path('storage/makanan');
+            $tujuan = public_path('/images');
 
             if (!file_exists($tujuan)) {
                 mkdir($tujuan, 0777, true);
             }
 
             $gambar->move($tujuan, $namaFile);
-            $gambarPath = 'storage/makanan/' . $namaFile;
+            $gambarPath = '/images' . $namaFile;
         }
 
         makanan::create([
@@ -101,7 +101,7 @@ class adminController extends Controller
     if ($request->hasFile('gambar')) {
         $file = $request->file('gambar');
         $namaFile = time() . '.' . $file->getClientOriginalExtension();
-        $file->move(public_path('storage/makanan'), $namaFile);
+        $file->move(public_path('/images'), $namaFile);
     }
 
     // Simpan nama file ke database
@@ -121,30 +121,30 @@ class adminController extends Controller
     {
         $makanan = Makanan::findOrFail($id);
 
-    $request->validate([
-        'nama_makanan' => 'required|string|max:255',
-        'kalori'       => 'required|numeric',
-        'serat'        => 'required|numeric',
-        'lemak'        => 'required|numeric',
-        'protein'      => 'required|numeric',
-        'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-    ]);
+        $request->validate([
+            'nama_makanan' => 'required|string|max:255',
+            'kalori'       => 'required|numeric',
+            'serat'        => 'required|numeric',
+            'lemak'        => 'required|numeric',
+            'protein'      => 'required|numeric',
+            'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
 
-    if ($request->hasFile('gambar')) {
-        $file = $request->file('gambar');
-        $namaFile = time() . '.' . $file->getClientOriginalExtension();
-        $file->move(public_path('makanan'), $namaFile);
+        if ($request->hasFile('gambar')) {
+            $file = $request->file('gambar');
+            $namaFile = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('/images'), $namaFile);
 
-        // Hapus file lama jika ada
-        if ($makanan->gambar && file_exists(public_path('makanan/' . $makanan->gambar))) {
-            unlink(public_path('makanan/' . $makanan->gambar));
+            // Hapus file lama jika ada
+            if ($makanan->gambar && file_exists(public_path('images/' . $makanan->gambar))) {
+                unlink(public_path('/images' . $makanan->gambar));
+            }
+
+            $makanan->gambar = $namaFile;
         }
 
-        $makanan->gambar = $namaFile;
-    }
-
-    $makanan->nama_makanan = $request->nama_makanan;
-    $makanan->save();
+        $makanan->nama_makanan = $request->nama_makanan;
+        $makanan->save();
 
 
         return redirect()->route('makanan')->with('success', 'Data makanan berhasil diperbarui.');
