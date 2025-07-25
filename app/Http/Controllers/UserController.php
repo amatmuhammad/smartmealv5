@@ -188,10 +188,6 @@ class UserController extends Controller
             $namaFile = time() . '.' . $foto->getClientOriginalExtension();
             $tujuan = public_path('/foto');
 
-            if (!file_exists($tujuan)) {
-                mkdir($tujuan, 0777, true);
-            }
-
             $foto->move($tujuan, $namaFile);
             $info->foto =  $namaFile;
         }
