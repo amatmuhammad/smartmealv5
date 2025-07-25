@@ -133,8 +133,6 @@
                                 <label>Gambar</label>
                                 <input type="file" name="gambar" class="form-control" >
                             </div>
-                            <br>
-                            <a href="{{ asset('format_excel_smartmeal.xlsx') }}" class="text-success">Unduh Template Excel Disini</a>
                             </div>
                             <div class="modal-footer">
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
@@ -210,12 +208,13 @@
                         </button>
                         </div>
                         <div class="modal-body">
-                        <div class="form-group">
-                            <label for="excel_file">Pilih File Excel (.xlsx)</label>
-                            <input type="file" class="form-control" name="excel_file" accept=".xls,.xlsx" required>
-                            <small class="text-danger">Jangan Menggunakan File .CSV</small>
+                            <div class="form-group">
+                                <label for="excel_file">Pilih File Excel (.xlsx)</label>
+                                <input type="file" class="form-control" name="excel_file" accept=".xls,.xlsx" required>
+                                <small class="text-danger">Jangan Menggunakan File .CSV</small>
+                            </div>
                         </div>
-                        </div>
+                            <a href="{{ asset('format_excel_smartmeal.xlsx') }}" class="text-success">Unduh Template Excel Disini</a>
                         <div class="modal-footer">
                         <button type="submit" class="btn btn-success">Upload</button>
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
