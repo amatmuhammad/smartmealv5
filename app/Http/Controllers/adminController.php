@@ -133,11 +133,11 @@ class adminController extends Controller
     if ($request->hasFile('gambar')) {
         $file = $request->file('gambar');
         $namaFile = time() . '.' . $file->getClientOriginalExtension();
-        $file->move(public_path('storage/makanan'), $namaFile);
+        $file->move(public_path('makanan'), $namaFile);
 
         // Hapus file lama jika ada
-        if ($makanan->gambar && file_exists(public_path('storage/makanan/' . $makanan->gambar))) {
-            unlink(public_path('storage/makanan/' . $makanan->gambar));
+        if ($makanan->gambar && file_exists(public_path('makanan/' . $makanan->gambar))) {
+            unlink(public_path('makanan/' . $makanan->gambar));
         }
 
         $makanan->gambar = $namaFile;
